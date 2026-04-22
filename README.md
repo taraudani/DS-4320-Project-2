@@ -9,9 +9,9 @@ This repository contains the data, pipeline, and analysis for a machine learning
 
 **DOI** - [![DOI]()
 
-**Press release** - [Link to Press Release]()
+**Press release** - [Link to Press Release](https://github.com/taraudani/DS-4320-Project-2/blob/b18096cfc5d453dab2bf010f9e406e3a67d8c28f/press_release.md)
 
-**Data** - [Link to data folder]()
+**Data** - [Link to data folder](https://myuva-my.sharepoint.com/:f:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Data?csf=1&web=1&e=nTiHlx)
 
 **Pipeline** - [Link to Pipeline Folder]()
 
@@ -36,7 +36,7 @@ The United States electricity grid is undergoing a fundamental transformation. A
 The general problem of grid balancing is vast and involves generation planning, transmission constraints, and market pricing, which is far too broad for a focused data project. The scope was refined to PJM specifically because it is the largest competitive wholesale electricity market in the world, and publishes clean and complete hourly data through the EIA-930 dataset. It also  has a documented day-ahead scheduling process that gives our prediction horizon a concrete, real-world motivation. It was further narrowed to the 24-hour ahead horizon because it directly maps to how PJM's day-ahead energy market actually operates. Operators must commit generation resources the day before, making next-day hourly demand forecasts an actionable output to produce. This refinement gives the project a clear evaluation context, as our model succeeds if its 24-hour forecasts are accurate enough to meaningfully inform day-ahead renewable scheduling.
 
 ### Press Release Headline:
-[Eastern U.S. Electricity Grid (PJM) Demand Forecasting By ML Model Unlocks New Energy Strategy]()
+[Eastern U.S. Electricity Grid (PJM) Demand Forecasting By ML Model Unlocks New Energy Strategy](https://github.com/taraudani/DS-4320-Project-2/blob/b18096cfc5d453dab2bf010f9e406e3a67d8c28f/press_release.md)
 
 ## Domain Exposition
 
@@ -54,16 +54,16 @@ The general problem of grid balancing is vast and involves generation planning, 
 This project lives at the intersection of energy systems engineering and applied machine learning. The electricity sector is one of the most operationally complex industries in the world, as the grid must balance supply and demand instantaneously, at massive scale and with almost zero tolerance for error. PJM Interconnection operates as both a grid manager and a competitive wholesale market, coordinating hundreds of generators, transmission lines, and utilities across states from Illinois to New Jersey. The rapid growth of renewable energy has introduced new forecasting challenges because solar and wind output fluctuates with weather in ways that dispatchable generators do not, making renewable energy yet another domain this project covers. Understanding these domains require familiarity with both the physical constraints of power systems and the economic mechanisms of electricity markets.
 
 ### Background Reading:
- [Link to OneDrive Folder with Readings]()
+ [Link to OneDrive Folder with Readings](https://myuva-my.sharepoint.com/:f:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Readings?csf=1&web=1&e=jOpmEk)
 
 ### Reading Summary:
 | Title | Description | Link |
 |-------|-------------|------|
-| EIA Hourly Electric Grid Monitor | Official documentation of the EIA-930 dataset including column definitions and methodology | [Link]() |
-| Short-Term Load Forecasting with ML | Academic overview of machine learning approaches to electricity demand forecasting, covering feature engineering and model benchmarks | [Link]() |
-| Understanding the Differences Among PJM's Markets | PJM's description of how they generate day-ahead and real-time load forecasts for grid operations | [Link]() |
-| Confronting the Duck Curve: How to Address Over-Generation of Solar Energy | Explanation of how solar generation creates a characteristic demand curve shape that challenges grid operators in the afternoon | [Link]() |
-| Integrating Variable Renewable Energy Resources Into the Grid: Key Issues | NREL report detailing the operational and forecasting challenges introduced by high penetrations of wind and solar on regional grids | [Link]() |
+| EIA Hourly Electric Grid Monitor | Official documentation of the EIA-930 dataset including column definitions and methodology | [Link](https://myuva-my.sharepoint.com/:b:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Readings/Real-time%20Operating%20Grid%20-%20U.S.%20Energy%20Information%20Administration%20(EIA).pdf?csf=1&web=1&e=jBYN1A) |
+| Short-Term Load Forecasting with ML | Academic overview of machine learning approaches to electricity demand forecasting, covering feature engineering and model benchmarks | [Link](https://myuva-my.sharepoint.com/:b:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Readings/Short%20Term%20Load%20Forecasting%20using%20Machine%20Learning%20Techniques%20_%20IEEE%20Conference%20Publication%20_%20IEEE%20Xplore.pdf?csf=1&web=1&e=Oic6JE) |
+| Understanding the Differences Among PJM's Markets | PJM's description of how they generate day-ahead and real-time load forecasts for grid operations | [Link](https://myuva-my.sharepoint.com/:b:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Readings/understanding-the-difference-among-pjms-markets.pdf?csf=1&web=1&e=559v1K) |
+| Confronting the Duck Curve: How to Address Over-Generation of Solar Energy | Explanation of how solar generation creates a characteristic demand curve shape that challenges grid operators in the afternoon | [Link](https://myuva-my.sharepoint.com/:b:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Readings/Confronting%20the%20Duck%20Curve_%20How%20to%20Address%20Over-Generation%20of%20Solar%20Energy%20_%20Department%20of%20Energy.pdf?csf=1&web=1&e=WxktsP) |
+| Integrating Variable Renewable Energy Resources Into the Grid: Key Issues | NREL report detailing the operational and forecasting challenges introduced by high penetrations of wind and solar on regional grids | [Link](https://myuva-my.sharepoint.com/:b:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Readings/Integrating%20Variable%20Renewable%20ENergy.pdf?csf=1&web=1&e=WWy51K) |
 
 ## Data Creation
 
@@ -78,7 +78,7 @@ of which are free and publicly accessible.
 ### Code:
 | File | Description | Link |
 |------|-------------|------|
-| pjm_demand_clean.csv code | Code to transform 6 EIA-930 CSV files by concatenating and filtering to PJM balancing authority, parsing UTC datetime, selecting demand/solar/wind columns, and saving to `pjm_demand_clean.csv` | [link to code](#scrollTo=EfDifeR9E-P2&line=5&uniqifier=1) |
+| pjm_demand_clean.csv code | Code to transform 6 EIA-930 CSV files by concatenating and filtering to PJM balancing authority, parsing UTC datetime, selecting demand/solar/wind columns, and saving to `pjm_demand_clean.csv` | [Link]() |
 
 ### Bias Identification:
 Several sources of bias could affect this dataset. First, the EIA-930 data
