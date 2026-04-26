@@ -11,8 +11,6 @@ This repository contains the full pipeline for a machine learning project that p
 
 **Press release** - [Link to Press Release](https://github.com/taraudani/DS-4320-Project-2/blob/b18096cfc5d453dab2bf010f9e406e3a67d8c28f/press_release.md)
 
-**Data** - [Link to data folder](https://myuva-my.sharepoint.com/:f:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Data?csf=1&web=1&e=nTiHlx)
-
 **Pipeline** - [Link to Pipeline Folder](https://github.com/taraudani/DS-4320-Project-2/tree/2e3aa440de3e02b023fc5a30eea9b98a70051af3/pipeline)
 
 **License** - [MIT License](https://github.com/taraudani/DS-4320-Project-2/blob/2e3aa440de3e02b023fc5a30eea9b98a70051af3/LICENSE)
@@ -74,7 +72,7 @@ Administration's EIA-930 Hourly Electric Grid Monitor, which is a publicly avail
 ### Code:
 | File | Description | Link |
 |------|-------------|------|
-| pjm_demand_clean.csv code | Code to transform 6 EIA-930 CSV files by concatenating and filtering to PJM balancing authority, parsing UTC datetime, selecting demand/solar/wind columns, and saving to `pjm_demand_clean.csv` | [Link](https://github.com/taraudani/DS-4320-Project-2/blob/1d8e7b59b73059ce874293a9235b5d8e31701e58/data_creation_code.md) |
+| pjm_demand_clean.csv code | Code to transform 6 EIA-930 CSV files by concatenating and filtering to PJM balancing authority, parsing UTC datetime, selecting demand/solar/wind columns, and saving to `pjm_demand_clean.csv` | [Link](https://github.com/taraudani/DS-4320-Project-2/blob/8c2b81b93a8e1a0799b653b9e43ef4aee1a89f4e/data%20code/data_creation_code.md) |
 
 ### Rationale:
 A 24-hour prediction horizon was chosen because it directly maps to PJM's day-ahead energy market, giving the model output a concrete operational use case. 2023-2024 were chosen as
@@ -141,19 +139,19 @@ with 24 hourly readings embedded as a nested array. These are the guidelines to 
 
 ### Data Dictionary:
 
- | Feature | Type | Description | Example | Mean | Std Dev | Min | Max | Null Rate | Notes |
-|---------|------|-------------|---------|------|---------|-----|-----|-----------|-------|
-| `date` | string | Calendar date in YYYY-MM-DD (UTC) | `"2024-07-15"` | — | — | — | — | 0% | Unique per document |
-| `year` | integer | Four-digit calendar year | `2024` | — | — | — | — | 0% | — |
-| `month` | integer | Month of year (1–12) | `7` | — | — | — | — | 0% | — |
-| `dow` | integer | Day of week, 0=Monday through 6=Sunday | `0` | — | — | — | — | 0% | — |
-| `is_holiday` | integer | 1 if US federal holiday, 0 otherwise | `0` | — | — | — | — | 0% | — |
-| `hour` | integer | UTC hour of day, 0–23 | `14` | — | — | — | — | 0% | Nested inside hours array |
-| `daily_avg_demand_mw` | float | Mean of all 24 hourly demand values for the day (MW) | `92,896` | 92,896 MW | 12,564 MW | 70,853 MW | 136,916 MW | 0% | Moderate variance driven by seasonal heating and cooling cycles |
-| `daily_peak_demand_mw` | float | Maximum single-hour demand value for the day (MW) | `105,745` | 105,745 MW | 16,770 MW | 78,226 MW | 160,560 MW | 0% | Higher variance than daily average; extreme peaks driven by heat waves and cold snaps |
-| `demand_mw` | float | Total PJM grid consumption at this hour (MW) | `92,933` | 92,933 MW | 15,507 MW | 56,260 MW | 160,560 MW | 0% | Most reliable feature; highest variance at morning ramp (7–9am) and evening peak (5–8pm) |
-| `solar_mw` | float | Net PJM solar generation at this hour (MW) | `1,253` | 1,253 MW | 1,732 MW | 0 MW | 7,672 MW | 50.09% | Zero every night; high null rate due to missing EIA source data for certain periods |
-| `wind_mw` | float | Net PJM wind generation at this hour (MW) | `3,605` | 3,605 MW | 2,320 MW | 107 MW | 9,891 MW | 50.09% | More consistent than solar; null rate matches solar due to same missing data windows |
+ | Feature | Type | Description | Example | Mean | Std Dev | Min | Max | Uncertainty | Null Rate | Notes |
+|---------|------|-------------|---------|------|---------|-----|-----|-------------|-----------|-------|
+| `date` | string | Calendar date in YYYY-MM-DD (UTC) | `"2024-07-15"` | — | — | — | — | — | 0% | Unique per document |
+| `year` | integer | Four-digit calendar year | `2024` | — | — | — | — | — | 0% | — |
+| `month` | integer | Month of year (1–12) | `7` | — | — | — | — | — | 0% | — |
+| `dow` | integer | Day of week, 0=Monday through 6=Sunday | `0` | — | — | — | — | — | 0% | — |
+| `is_holiday` | integer | 1 if US federal holiday, 0 otherwise | `0` | — | — | — | — | — | 0% | — |
+| `hour` | integer | UTC hour of day, 0–23 | `14` | — | — | — | — | — | 0% | Nested inside hours array |
+| `daily_avg_demand_mw` | float | Mean of all 24 hourly demand values for the day (MW) | `92,896` | 92,896 MW | 12,564 MW | 70,853 MW | 136,916 MW | ± 12,564 MW (typical daily avg varies by roughly one-eighth of mean) | 0% | Moderate variance driven by seasonal heating and cooling cycles |
+| `daily_peak_demand_mw` | float | Maximum single-hour demand value for the day (MW) | `105,745` | 105,745 MW | 16,770 MW | 78,226 MW | 160,560 MW | ± 16,770 MW (peak can swing ~82k MW across full range) | 0% | Higher variance than daily average, extreme peaks driven by heat waves and cold snaps |
+| `demand_mw` | float | Total PJM grid consumption at this hour (MW) | `92,933` | 92,933 MW | 15,507 MW | 56,260 MW | 160,560 MW | ± 15,507 MW (any given hour is typically within ~17% of mean) | 0% | Most reliable feature, highest variance at morning ramp (7–9am) and evening peak (5–8pm) |
+| `solar_mw` | float | Net PJM solar generation at this hour (MW) | `1,253` | 1,253 MW | 1,732 MW | 0 MW | 7,672 MW | ± 1,732 MW (std dev exceeds mean, driven by zero output at night) | 50.09% | Zero every night, high null rate due to missing EIA source data for certain periods |
+| `wind_mw` | float | Net PJM wind generation at this hour (MW) | `3,605` | 3,605 MW | 2,320 MW | 107 MW | 9,891 MW | ± 2,320 MW (more stable than solar, range spans ~9,800 MW) | 50.09% | More consistent than solar, null rate matches solar due to same missing data windows |
 
 **Note:** The 50% null rate for `solar_mw` and `wind_mw` reflects missing data in the raw EIA-930
 source files for certain time periods, not a data collection error. These features are used only
