@@ -391,6 +391,8 @@ def plot_press_release(results_df, mae, mape):
 
 plot_press_release(results_df, mae, mape)
 ```
+<img width="3570" height="1573" alt="press_release_chart" src="https://github.com/user-attachments/assets/95d6df9c-b408-4349-833b-04e21eb0b6a9" />
+
 
 ## Visualization Rationale
 
