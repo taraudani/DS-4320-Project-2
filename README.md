@@ -1,7 +1,7 @@
 # DS-4320-Project-2
 
 ### Executive Summary 
-This repository contains the data, pipeline, and analysis for a machine learning project forecasting 24-hour energy demand for the PJM grid in the Eastern United States. Using a publicly available data source 
+This repository contains the full pipeline for a machine learning project that predicts hourly electricity demand on the PJM Interconnection 24 hours in advance. Using three years of publicly available hourly data from the U.S. Energy Information Administration's EIA-930 dataset, the project builds a MongoDB document database of daily demand records, engineers a set of time-based and lag features, and trains an XGBoost model for prediction. The repository includes the data creation and cleaning pipeline, MongoDB upload and query code, the full model training and evaluation workflow, model predictions stored back to a second MongoDB collection, and a visualization of forecast accuracy. All materials are written in Python and Markdown following the DS 4320 project standards. 
 
 **Name** - Tara Udani
 
@@ -23,11 +23,11 @@ This repository contains the data, pipeline, and analysis for a machine learning
 
 - **General Problem:**
 
-Electricity grids must continuously balance supply and demand in real time, making predictions for usage to understand the balance. Inaccurate demand forecasts lead to either   wasted energy or dangerous supply shortfalls that risk grid instability and blackouts, especially with renewable sources.
+Electricity grids must continuously balance supply and demand in real time, making predictions for usage to understand the balance. Inaccurate demand forecasts lead to either wasted energy or dangerous supply shortfalls that risk grid instability and blackouts, especially with renewable sources.
 
 - **Specific Problem:**
 
-Can hourly electricity demand for the PJM Interconnection be predicted 24 hours in advance using historical load data, weather features, and time-based patterns to support      day-ahead energy scheduling decisions?
+Can hourly electricity demand for the PJM Interconnection be predicted 24 hours in advance using historical load data and time-based patterns to support day-ahead energy scheduling decisions?
 
 ### Motivation:
 The United States electricity grid is undergoing a fundamental transformation. As solar and wind generation capacity expands rapidly across the PJM region, which serves roughly 65 million people across 13 states on the East Coast, grid operators face an increasingly complex need to balance supply and demand. Unlike coal or natural gas plants, renewable sources cannot be turned up on demand, as their output depends entirely on weather conditions (sun, wind, etc.). This means that accurate day-ahead demand forecasting is critical because if operators overestimate demand, clean renewable energy gets wasted, and if they underestimate it, they must spin up expensive and carbon-intensive plants on short notice. Better forecasting directly translates to lower electricity costs, reduced carbon emissions, and a more stable grid, making this problem both economically significant and environmentally urgent.
@@ -48,7 +48,7 @@ The general problem of grid balancing is vast and involves generation planning, 
 | **Load / Demand (MW)** | The total amount of electricity being consumed at a given moment, measured in megawatts |
 | **Day-Ahead Market** | Energy market where generators and buyers commit to supply/demand schedules 24 hours in advance |
 | **Renewable Intermittency** | The variability of solar and wind generation due to weather, making output unpredictable |
-| **MAPE** | Mean Absolute Percentage Error — the standard accuracy metric in energy forecasting |
+| **MAPE** | Mean Absolute Percentage Error, the standard accuracy metric in energy forecasting |
 
 ### Domain:
 This project lives at the intersection of energy systems engineering and applied machine learning. The electricity sector is one of the most operationally complex industries in the world, as the grid must balance supply and demand instantaneously, at massive scale and with almost zero tolerance for error. PJM Interconnection operates as both a grid manager and a competitive wholesale market, coordinating hundreds of generators, transmission lines, and utilities across states from Illinois to New Jersey. The rapid growth of renewable energy has introduced new forecasting challenges because solar and wind output fluctuates with weather in ways that dispatchable generators do not, making renewable energy yet another domain this project covers. Understanding these domains require familiarity with both the physical constraints of power systems and the economic mechanisms of electricity markets.
@@ -71,14 +71,22 @@ This project lives at the intersection of energy systems engineering and applied
 The primary dataset for this project comes from the U.S. Energy Information
 Administration's EIA-930 Hourly Electric Grid Monitor, which is a publicly available dataset updated hourly and downloadable as CSV files in six-month increments from eia.gov/electricity/gridmonitor. The data covers hourly electricity demand, net generation by fuel source, and interchange between regions for all major U.S. balancing authorities. For this project, six files covering January 2023 through December 2025 were downloaded and filtered all records to the PJM Interconnection balancing authority.
 
-Weather data, if incorporated in a future iteration, would be sourced from
-NOAA's Climate Data Online or the Open-Meteo historical weather API, both
-of which are free and publicly accessible.
-
 ### Code:
 | File | Description | Link |
 |------|-------------|------|
 | pjm_demand_clean.csv code | Code to transform 6 EIA-930 CSV files by concatenating and filtering to PJM balancing authority, parsing UTC datetime, selecting demand/solar/wind columns, and saving to `pjm_demand_clean.csv` | [Link](https://github.com/taraudani/DS-4320-Project-2/blob/1d8e7b59b73059ce874293a9235b5d8e31701e58/data_creation_code.md) |
+
+### Rationale:
+A 24-hour prediction horizon was chosen because it directly maps to PJM's day-ahead energy market, giving the model output a concrete operational use case. 2023-2024 were chosen as
+training data and 2025 as the test set rather than a random split because
+time-series data must be split chronologically, and random splitting would
+allow the model to "see the future" during training and produce artificially
+inflated accuracy scores. XGBoost was chosen as the primary model because it
+handles tabular data with engineered lag features better than neural
+networks at this data scale, and because its feature importance output
+provides interpretable insight into which patterns the model relies on most. MAPE is used as the evaluation metric because it is the industry standard in
+energy forecasting and expresses error as a percentage of actual demand,
+making it intuitive to interpret regardless of the absolute MW scale.
 
 ### Bias Identification:
 Several sources of bias could affect this dataset. First, the EIA-930 data
@@ -96,18 +104,6 @@ To mitigate bias, the raw "Demand (MW)" column is used rather
 than the adjusted version where possible, and hours marked as imputed are flagged so they can be excluded from error metric calculations if needed. To address the economic recovery period bias, year is included as a feature to the model so it can learn any underlying trend rather than treating all years as
 identical. Geographic changes to PJM's footprint are difficult to fully
 correct for without detailed records, but their impact on hourly totals is small relative to seasonal and daily variation and therefore treated as acceptable noise to this project.
-
-### Rationale:
-A 24-hour prediction horizon was chosen because it directly maps to PJM's day-ahead energy market, giving the model output a concrete operational use case. 2023-2024 were chosen as
-training data and 2025 as the test set rather than a random split because
-time-series data must be split chronologically, and random splitting would
-allow the model to "see the future" during training and produce artificially
-inflated accuracy scores. XGBoost was chosen as the primary model because it
-handles tabular data with engineered lag features better than neural
-networks at this data scale, and because its feature importance output
-provides interpretable insight into which patterns the model relies on most. MAPE is used as the evaluation metric because it is the industry standard in
-energy forecasting and expresses error as a percentage of actual demand,
-making it intuitive to interpret regardless of the absolute MW scale.
 
 ## Metadata
 
@@ -140,8 +136,8 @@ with 24 hourly readings embedded as a nested array. These are the guidelines to 
 ### Data Summary:
 | Collection | Documents | Date Range | Hourly Readings | Purpose |
 |------------|-----------|------------|-----------------|---------|
-| `pjm_demand` | ~1,095 | Jan 2023 - Dec 2025 | ~26,280 total (24 per doc) | Raw cleaned EIA data used for exploration and model training |
-| `pjm_predictions` | ~365 | Jan 2025 - Dec 2025 | ~8,760 total (24 per doc) | Model output, predicted vs actual demand for 2025 test year |
+| `pjm_demand` | ~1,095 | Jan 2023 - Dec 2025 | ~26,280 total (24 per document) | Raw cleaned EIA data used for exploration and model training |
+| `pjm_predictions` | ~365 | Jan 2025 - Dec 2025 | ~8,760 total (24 per document) | Model output, predicted vs actual demand for 2025 test year |
 
 ### Data Dictionary:
 
