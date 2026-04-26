@@ -7,7 +7,7 @@ This repository contains the full pipeline for a machine learning project that p
 
 **NetID** - hav7tz
 
-**DOI** - [![DOI]()
+**DOI** - [![DOI](https://zenodo.org/badge/1216257080.svg)](https://doi.org/10.5281/zenodo.19794578)
 
 **Press release** - [Link to Press Release](https://github.com/taraudani/DS-4320-Project-2/blob/b18096cfc5d453dab2bf010f9e406e3a67d8c28f/press_release.md)
 
