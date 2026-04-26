@@ -13,9 +13,9 @@ This repository contains the full pipeline for a machine learning project that p
 
 **Data** - [Link to data folder](https://myuva-my.sharepoint.com/:f:/r/personal/hav7tz_virginia_edu/Documents/DS%204320%20Project%202/Data?csf=1&web=1&e=nTiHlx)
 
-**Pipeline** - [Link to Pipeline Folder]()
+**Pipeline** - [Link to Pipeline Folder](https://github.com/taraudani/DS-4320-Project-2/tree/2e3aa440de3e02b023fc5a30eea9b98a70051af3/pipeline)
 
-**License** - [MIT License]()
+**License** - [MIT License](https://github.com/taraudani/DS-4320-Project-2/blob/2e3aa440de3e02b023fc5a30eea9b98a70051af3/LICENSE)
 
 ## Problem Definition
 
