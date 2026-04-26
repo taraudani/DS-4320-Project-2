@@ -78,7 +78,7 @@ of which are free and publicly accessible.
 ### Code:
 | File | Description | Link |
 |------|-------------|------|
-| pjm_demand_clean.csv code | Code to transform 6 EIA-930 CSV files by concatenating and filtering to PJM balancing authority, parsing UTC datetime, selecting demand/solar/wind columns, and saving to `pjm_demand_clean.csv` | [Link]() |
+| pjm_demand_clean.csv code | Code to transform 6 EIA-930 CSV files by concatenating and filtering to PJM balancing authority, parsing UTC datetime, selecting demand/solar/wind columns, and saving to `pjm_demand_clean.csv` | [Link](https://github.com/taraudani/DS-4320-Project-2/blob/1d8e7b59b73059ce874293a9235b5d8e31701e58/data_creation_code.md) |
 
 ### Bias Identification:
 Several sources of bias could affect this dataset. First, the EIA-930 data
